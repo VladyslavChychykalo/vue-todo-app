@@ -10,6 +10,7 @@
 
 <script>
 import CustomInput from "../shared/Input/Input";
+
 export default {
   name: "edit-modal",
   props: {

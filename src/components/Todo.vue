@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form action="" @submit.prevent="submitHandler">
+    <form action="" @submit.prevent="submitHandler()">
       <CustomInput type="text" placeholder="Name" v-model="name" />
       <CustomInput type="text" placeholder="Surname" v-model="surname" />
       <button type="submit">Add</button>
@@ -11,6 +11,7 @@
 <script>
 import CustomInput from "./shared/Input/Input";
 import { uuid } from "vue-uuid";
+import axios from "axios";
 
 export default {
   name: "todo",
@@ -25,16 +26,27 @@ export default {
   },
   validations: {},
   methods: {
+    addItem(value) {
+      console.log(value);
+      this.$emit("add", value);
+    },
     submitHandler() {
       if (!this.name && !this.surname) return;
 
       const formData = {
-        id: uuid.v1(),
         name: this.name,
         surname: this.surname,
       };
 
-      this.$emit("click", formData);
+      axios
+        .post("http://localhost:3001", formData)
+        .then((response) => {
+          this.addItem(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
       this.resetForm();
     },
 

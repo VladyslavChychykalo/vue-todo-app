@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Todo @click="addItem($event)" />
+    <Todo @add="addItem" />
     <TodoItem
       :items="items"
       :deleteItem="deleteItem"
@@ -13,6 +13,7 @@
 <script>
 import Todo from "../components/Todo";
 import TodoItem from "../components/TodoItem";
+// import axios from "axios";
 
 export default {
   name: "home",
@@ -25,8 +26,15 @@ export default {
     Todo,
     TodoItem,
   },
+  mounted() {
+    this.axios.get("http://localhost:3001").then((responsive) => {
+      this.items = responsive.data;
+    });
+  },
   methods: {
     addItem(item) {
+      console.log(this.items);
+      console.log(item);
       this.items.unshift(item);
     },
     deleteItem(id) {

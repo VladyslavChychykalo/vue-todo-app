@@ -18,9 +18,7 @@
       >
         {{ surname }}
       </p>
-      <button @click="deleteItem(id)">
-        Delete
-      </button>
+      <button @click="deleteItem(id)">Delete</button>
       <button @click="openEditModal({ id, name, surname })">Edit2</button>
     </div>
 
