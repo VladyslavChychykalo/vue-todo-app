@@ -26,27 +26,16 @@ export default {
   },
   validations: {},
   methods: {
-    addItem(value) {
-      console.log(value);
-      this.$emit("add", value);
-    },
     submitHandler() {
       if (!this.name && !this.surname) return;
 
       const formData = {
+        // id: uuid.v1(),
         name: this.name,
         surname: this.surname,
       };
 
-      axios
-        .post("http://localhost:3001", formData)
-        .then((response) => {
-          this.addItem(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
+      this.$emit("add", formData);
       this.resetForm();
     },
 

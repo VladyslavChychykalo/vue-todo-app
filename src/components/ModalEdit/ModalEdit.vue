@@ -60,9 +60,9 @@ export default {
       if (!this.name && !this.surname) return;
 
       const formData = {
-        id: this.id,
         name: this.name,
         surname: this.surname,
+        id: this.id,
       };
 
       this.editItem(formData);

@@ -13,7 +13,6 @@
 <script>
 import Todo from "../components/Todo";
 import TodoItem from "../components/TodoItem";
-// import axios from "axios";
 
 export default {
   name: "home",
@@ -33,25 +32,55 @@ export default {
   },
   methods: {
     addItem(item) {
-      console.log(this.items);
-      console.log(item);
-      this.items.unshift(item);
+      this.axios
+        .post("http://localhost:3001", item)
+        .then((response) => {
+          this.items.unshift(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      // this.items.unshift(item);
     },
     deleteItem(id) {
       if (!id) return;
-      this.items = this.items.filter((el) => el.id !== id);
+      this.axios
+        .get(`http://localhost:3001/user/${id}`)
+        .then((responsive) => {
+          this.items = this.items.filter((el) => el.id !== responsive.data.id);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      // this.items = this.items.filter((el) => el.id !== id);
     },
     editField(id, key, value) {
-      console.log(id, name, value);
+      // console.log(id, name, value);
       this.items = this.items.map((el) =>
         el.id === id ? { ...el, [key]: value } : el
       );
-      console.log(this.items);
+      // console.log(this.items);
     },
     editItem(editedItem) {
-      this.items = this.items.map((el) =>
-        el.id === editedItem.id ? editedItem : el
-      );
+      console.log(editedItem);
+      this.axios
+        .put(`http://localhost:3001/user/${editedItem.id}`, editedItem)
+        .then((response) => {
+          console.log(response.data);
+
+          this.items = this.items.map((el) =>
+            el.id === response.data.id ? response.data : el
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      // // =============
+      // this.items = this.items.map((el) =>
+      //   el.id === editedItem.id ? editedItem : el
+      // );
     },
   },
 };
